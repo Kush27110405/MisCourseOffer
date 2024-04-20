@@ -18,7 +18,13 @@ class AuthController extends ControllerAPI
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('AuthCheck:stu,emp', ['except' => ['login', 'validateUser', 'refresh', 'gen_menu', 'TokenError', 'sanctum/csrf-cookie']]);
+        $this->middleware('AuthCheck:stu,emp', ['except' => 
+        ['login', 
+        'validateUser',
+         'refresh',
+          'gen_menu', 
+          'TokenError', 
+          'sanctum/csrf-cookie']]);
     }
     function TokenError()
     {

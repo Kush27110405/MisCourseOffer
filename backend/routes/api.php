@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ControllerHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,17 +37,25 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('get-read-notification', 'getReadNotification');
     Route::post('mark-read-notification', 'markReadNotification');
     Route::post('GetBiometicAttendance', 'GetBiometicAttendance');
+    
 });
-
-//My Routes
-Route::controller(CourseController::class)->group(function () {
-    Route::get('courses', 'index');
-    Route::get('showUser', 'showUser');
-});
-
 
 
 // here add routes Module wise
+    /*My routes */
+Route::controller(ControllerHelper::class)->group(function () {
+    Route::get('session_year', 'session_year');
+    Route::get('session', 'session');
+    Route::get('course', 'course');
+    Route::get('branch', 'branch');
+    Route::post('filter', 'filter');
+    Route::post('getOffers', 'getSubjectOffered');
+    Route::post('getCourses', 'getCourses');
+    Route::delete('deleteOffers', 'deleteOffers');
+    Route::post('getcoursedata', 'getcoursedata');  
+    Route::post('getprofessor', 'getprofessor');
+    Route::post('store','store');
+});
 
 include('adminRoutes.php');
 include('userRoutes.php');

@@ -29,7 +29,30 @@ const defaultProvider = {
   singlelogin: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
-  checking: () => Promise.resolve()//
+  courseData: {
+    years: [],
+    sessions: [],
+    courses: [],
+    branches: [],
+    semesters: '0',
+    components: [],
+    offers: [],
+    currYear: '',
+    currSession: '',
+    currCourse: '',
+    currBranch: '',
+    currSem: '',
+    currBatch: '',
+    currCourseId: '',
+    currBranchId: '',
+    currComponent: ''
+  },
+  setCourseData: () => null,
+  courseList: [],
+  setCourseList: () => null,
+  fetchCourseList: () => null,
+  getProfessor: () => null,
+  store: () => null
 }
 const url = process.env.APIURL
 const AuthContext = createContext(defaultProvider)
@@ -42,6 +65,26 @@ const AuthProvider = ({ children }) => {
   const [useSessionYear, setSessionYear] = useState(defaultProvider.useSessionYear)
   const [useSession, setSession] = useState(defaultProvider.useSession)
   const [loading, setLoading] = useState(defaultProvider.loading)
+  const [courseList, setCourseList] = useState([])
+
+  const [courseData, setCourseData] = useState({
+    years: [],
+    sessions: [],
+    courses: [],
+    branches: [],
+    semesters: '0',
+    components: [],
+    offers: [],
+    currYear: '',
+    currSession: '',
+    currCourse: '',
+    currBranch: '',
+    currSem: '',
+    currBatch: '',
+    currCourseId: '',
+    currBranchId: '',
+    currComponent: ''
+  })
 
   // ** Hooks
   const router = useRouter()
@@ -225,10 +268,39 @@ const AuthProvider = ({ children }) => {
       .catch(err => (errorCallback ? errorCallback(err) : null))
   }
 
-  const checking = async () => {
-    const res = await axios.get(url + 'showUser')
-    console.log(res.data)
-    return res.data
+  async function fetchCourseList(params) {
+    const response = await axios.post(url + 'getcoursedata', params, {
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem(authConfig.storageTokenKeyName)
+      }
+    })
+    const data = response.data
+    console.log(response)
+    setCourseList(data)
+  }
+
+  async function getProfessor(params) {
+    console.log(params)
+    const response = await axios.post(
+      url + 'getprofessor',
+      { data: params },
+      {
+        headers: {
+          Authorization: 'Bearer ' + window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      }
+    )
+    return response.data
+  }
+
+  async function store(params) {
+    console.log(params)
+    const res = await axios.post(url + 'store', params, {
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem(authConfig.storageTokenKeyName)
+      }
+    })
+    return res
   }
 
   const values = {
@@ -248,7 +320,13 @@ const AuthProvider = ({ children }) => {
     singlelogin: handleSinglelogin,
     logout: handleLogout,
     register: handleRegister,
-    checking: checking
+    courseData,
+    setCourseData,
+    courseList,
+    setCourseList,
+    fetchCourseList,
+    getProfessor,
+    store
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

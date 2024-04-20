@@ -1,0 +1,55 @@
+const [formdata, setFormdata] = useState({
+  years: [],
+  sessions: [],
+  courses: [],
+  branches: [],
+  semesters: '0',
+  components: [],
+  offers: [],
+  currYear: '',
+  currSession: '',
+  currCourse: '',
+  currBranch: '',
+  currSem: '',
+  currBatch: '',
+  currCourseId: '',
+  currBranchId: '',
+  currComponent: ''
+})
+useEffect(() => {
+  setFormdata({
+    years: years,
+    sessions: sessions,
+    courses: courses,
+    branches: branches,
+    semesters: semesters,
+    components: components,
+    offers: offers,
+    currYear: currYear,
+    currSession: currSession,
+    currCourse: currCourse,
+    currBranch: currBranch,
+    currSem: currSem,
+    currBatch: currBatch,
+    currCourseId: currCourseId,
+    currBranchId: currBranchId,
+    currComponent: currComponent
+  })
+}, [
+  years,
+  sessions,
+  courses,
+  branches,
+  semesters,
+  components,
+  offers,
+  currYear,
+  currSession,
+  currCourse,
+  currBranch,
+  currSem,
+  currBatch,
+  currCourseId,
+  currBranchId,
+  currComponent
+])
